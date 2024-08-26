@@ -6,10 +6,15 @@ interface BoardProps {
   gameState: string[];
   onCellClick: (index: number) => void;
   boardSize: number;
+  winningIndices: number[];
 }
 
-const Board: React.FC<BoardProps> = ({ gameState, onCellClick, boardSize }) => {
-  console.log(gameState);
+const Board: React.FC<BoardProps> = ({
+  gameState,
+  onCellClick,
+  boardSize,
+  winningIndices,
+}) => {
   const cellSize = boardSize <= 15 ? 60 : 20;
 
   return (
@@ -17,7 +22,9 @@ const Board: React.FC<BoardProps> = ({ gameState, onCellClick, boardSize }) => {
       {gameState.map((cell, index) => (
         <div
           key={index}
-          className="board-cell"
+          className={`board-cell ${
+            winningIndices.includes(index) ? "winner" : ""
+          }`}
           onClick={() => onCellClick(index)}
         >
           {cell === "X" && <img src={golang} alt="golang" />}
@@ -26,7 +33,6 @@ const Board: React.FC<BoardProps> = ({ gameState, onCellClick, boardSize }) => {
       ))}
 
       <style>{`
-      
         .board {
           display: grid;
           grid-template-columns: repeat(${boardSize}, 1fr);
@@ -50,6 +56,9 @@ const Board: React.FC<BoardProps> = ({ gameState, onCellClick, boardSize }) => {
           cursor: pointer;
           background-color: #2074f5;
           border: 1px solid #ccc;
+        }
+        .board-cell.winner {
+          background-color: yellow; 
         }
         .board-cell img {
           width: 80%;
