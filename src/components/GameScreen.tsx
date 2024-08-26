@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useCallback } from "react";
 import Board from "./Board";
 import StatusDisplay from "./StatusDisplay";
 import ControlButtons from "./ControlButtons";
@@ -23,38 +23,66 @@ const GameScreen: React.FC<GameScreenProps> = ({
   const [gameActive, setGameActive] = useState<boolean>(true);
 
   const checkWinner = (newGameState: string[]): "X" | "O" | null => {
+    const winCondition = boardSize <= 5 ? 3 : 5;
+
     for (let i = 0; i < boardSize; i++) {
-      const start = i * boardSize;
-      const row = newGameState.slice(start, start + boardSize);
-      if (row.every((cell) => cell === row[0] && cell !== "")) {
-        return row[0] as "X" | "O";
+      for (let j = 0; j <= boardSize - winCondition; j++) {
+        const rowSegment: string[] = newGameState.slice(
+          i * boardSize + j,
+          i * boardSize + j + winCondition
+        );
+        if (rowSegment.every((cell) => cell === rowSegment[0] && cell !== "")) {
+          return rowSegment[0] as "X" | "O";
+        }
       }
     }
 
     for (let i = 0; i < boardSize; i++) {
-      const column: string[] = [];
-      for (let j = 0; j < boardSize; j++) {
-        column.push(newGameState[i + j * boardSize]);
-      }
-      if (column.every((cell) => cell === column[0] && cell !== "")) {
-        return column[0] as "X" | "O";
+      for (let j = 0; j <= boardSize - winCondition; j++) {
+        const columnSegment: string[] = [];
+        for (let k = 0; k < winCondition; k++) {
+          columnSegment.push(newGameState[(j + k) * boardSize + i]);
+        }
+        if (
+          columnSegment.every(
+            (cell) => cell === columnSegment[0] && cell !== ""
+          )
+        ) {
+          return columnSegment[0] as "X" | "O";
+        }
       }
     }
 
-    const mainDiagonal: string[] = [];
-    for (let i = 0; i < boardSize; i++) {
-      mainDiagonal.push(newGameState[i * (boardSize + 1)]);
-    }
-    if (mainDiagonal.every((cell) => cell === mainDiagonal[0] && cell !== "")) {
-      return mainDiagonal[0] as "X" | "O";
+    for (let i = 0; i <= boardSize - winCondition; i++) {
+      for (let j = 0; j <= boardSize - winCondition; j++) {
+        const diagonalSegment: string[] = [];
+        for (let k = 0; k < winCondition; k++) {
+          diagonalSegment.push(newGameState[(i + k) * boardSize + j + k]);
+        }
+        if (
+          diagonalSegment.every(
+            (cell) => cell === diagonalSegment[0] && cell !== ""
+          )
+        ) {
+          return diagonalSegment[0] as "X" | "O";
+        }
+      }
     }
 
-    const antiDiagonal: string[] = [];
-    for (let i = 0; i < boardSize; i++) {
-      antiDiagonal.push(newGameState[(i + 1) * (boardSize - 1)]);
-    }
-    if (antiDiagonal.every((cell) => cell === antiDiagonal[0] && cell !== "")) {
-      return antiDiagonal[0] as "X" | "O";
+    for (let i = 0; i <= boardSize - winCondition; i++) {
+      for (let j = winCondition - 1; j < boardSize; j++) {
+        const antiDiagonalSegment: string[] = [];
+        for (let k = 0; k < winCondition; k++) {
+          antiDiagonalSegment.push(newGameState[(i + k) * boardSize + j - k]);
+        }
+        if (
+          antiDiagonalSegment.every(
+            (cell) => cell === antiDiagonalSegment[0] && cell !== ""
+          )
+        ) {
+          return antiDiagonalSegment[0] as "X" | "O";
+        }
+      }
     }
 
     return null;
@@ -69,27 +97,30 @@ const GameScreen: React.FC<GameScreenProps> = ({
   //   }
   // };
 
-  const handlePlayerMove = (index: number) => {
-    if (gameState[index] !== "" || !gameActive) return;
+  const handlePlayerMove = useCallback(
+    (index: number) => {
+      if (gameState[index] !== "" || !gameActive) return;
 
-    const newGameState = [...gameState];
-    newGameState[index] = currentPlayer;
+      const newGameState = [...gameState];
+      newGameState[index] = currentPlayer;
 
-    setGameState(newGameState);
+      setGameState(newGameState);
 
-    const winner = checkWinner(newGameState);
-    if (winner || !newGameState.includes("")) {
-      setGameActive(false);
-    } else {
-      if (gameMode === "PvP") {
-        setCurrentPlayer(currentPlayer === "X" ? "O" : "X");
-      } else if (gameMode === "PvC") {
-        setTimeout(() => {
-          handleAIMove(newGameState);
-        }, 300);
+      const winner = checkWinner(newGameState);
+      if (winner || !newGameState.includes("")) {
+        setGameActive(false);
+      } else {
+        if (gameMode === "PvP") {
+          setCurrentPlayer(currentPlayer === "X" ? "O" : "X");
+        } else if (gameMode === "PvC") {
+          setTimeout(() => {
+            handleAIMove(newGameState);
+          }, 300);
+        }
       }
-    }
-  };
+    },
+    [gameState, gameActive, currentPlayer, checkWinner, gameMode]
+  );
 
   const handleAIMove = (newGameState: string[]) => {
     const aiMove = getBestMove(newGameState);
