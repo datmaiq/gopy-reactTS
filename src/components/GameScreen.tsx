@@ -29,20 +29,21 @@ const GameScreen: React.FC<GameScreenProps> = ({
     ): { winner: "X" | "O" | null; winningIndices: number[] } => {
       const winCondition = boardSize <= 5 ? 3 : 5;
 
-      // Check rows
       for (let i = 0; i < boardSize; i++) {
         for (let j = 0; j <= boardSize - winCondition; j++) {
           const rowSegment = newGameState.slice(
             i * boardSize + j,
             i * boardSize + j + winCondition
           );
+          console.log(rowSegment[0]);
           const indices = Array.from(
             { length: winCondition },
             (_, k) => i * boardSize + j + k
           );
-          if (
-            rowSegment.every((cell) => cell === rowSegment[0] && cell !== "")
-          ) {
+          const winRow = rowSegment.every(
+            (cell) => cell === rowSegment[0] && cell !== ""
+          );
+          if (winRow) {
             return {
               winner: rowSegment[0] as "X" | "O",
               winningIndices: indices,
@@ -59,11 +60,10 @@ const GameScreen: React.FC<GameScreenProps> = ({
             columnSegment.push(newGameState[(j + k) * boardSize + i]);
             indices.push((j + k) * boardSize + i);
           }
-          if (
-            columnSegment.every(
-              (cell) => cell === columnSegment[0] && cell !== ""
-            )
-          ) {
+          const winColumn = columnSegment.every(
+            (cell) => cell === columnSegment[0] && cell !== ""
+          );
+          if (winColumn) {
             return {
               winner: columnSegment[0] as "X" | "O",
               winningIndices: indices,
@@ -80,11 +80,10 @@ const GameScreen: React.FC<GameScreenProps> = ({
             diagonalSegment.push(newGameState[(i + k) * boardSize + j + k]);
             indices.push((i + k) * boardSize + j + k);
           }
-          if (
-            diagonalSegment.every(
-              (cell) => cell === diagonalSegment[0] && cell !== ""
-            )
-          ) {
+          const winDiagonal = diagonalSegment.every(
+            (cell) => cell === diagonalSegment[0] && cell !== ""
+          );
+          if (winDiagonal) {
             return {
               winner: diagonalSegment[0] as "X" | "O",
               winningIndices: indices,
@@ -101,11 +100,10 @@ const GameScreen: React.FC<GameScreenProps> = ({
             antiDiagonalSegment.push(newGameState[(i + k) * boardSize + j - k]);
             indices.push((i + k) * boardSize + j - k);
           }
-          if (
-            antiDiagonalSegment.every(
-              (cell) => cell === antiDiagonalSegment[0] && cell !== ""
-            )
-          ) {
+          const winAntiDiagonal = antiDiagonalSegment.every(
+            (cell) => cell === antiDiagonalSegment[0] && cell !== ""
+          );
+          if (winAntiDiagonal) {
             return {
               winner: antiDiagonalSegment[0] as "X" | "O",
               winningIndices: indices,
@@ -139,6 +137,7 @@ const GameScreen: React.FC<GameScreenProps> = ({
         setGameState([...newGameState]);
 
         const { winner, winningIndices } = checkWinner(newGameState);
+
         if (winner || !newGameState.includes("")) {
           setGameActive(false);
           setWinningIndices(winningIndices);

@@ -123,3 +123,11 @@ button:disabled {
   height: 50px;
   margin-top: 30px;
 }
+.board-cell.winner {
+  background-color: yellow;
+}
+.board-cell img {
+  width: 80%;
+  height: 80%;
+  object-fit: contain;
+}

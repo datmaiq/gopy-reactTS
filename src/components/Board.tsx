@@ -57,14 +57,7 @@ const Board: React.FC<BoardProps> = ({
           background-color: #2074f5;
           border: 1px solid #ccc;
         }
-        .board-cell.winner {
-          background-color: yellow; 
-        }
-        .board-cell img {
-          width: 80%;
-          height: 80%;
-          object-fit: contain;
-        }
+      
       `}</style>
     </div>
   );
