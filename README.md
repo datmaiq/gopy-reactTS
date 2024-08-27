@@ -1,46 +1,45 @@
-# Getting Started with Create React App
+# Tic Tac Toe Python and Golang Version
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## Overview
 
-## Available Scripts
+This project is a classic Tic-Tac-Toe game where players can choose to play against another player or against the computer. The game supports various grid sizes, customizable icons, and highlights the winning cells
+![Demo Image](assets/demo-gameplay.png)
 
-In the project directory, you can run:
+![Demo Image](assets/demo-selection.png)
 
-### `npm start`
+## Features
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+- **Game Modes:**
+  - Player vs Player (PvP)
+  - Player vs Computer (PvC)
+- **Customizable Grid Size:**
+  - The game board size can be adjusted to fit different preferences.
+- **Icon Customization:**
+  - Choose between Python and Golang icons for 'X' and 'O'.
+- **Winning Cell Highlight:**
+  - Winning cells are highlighted in yellow.
+- **Responsive Design:**
+  - The game board is optimized for various screen sizes, ensuring buttons and grids are visible and appropriately scaled.
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+1. **Clone the Repository:**
 
-### `npm test`
+   ```bash
+   git clone https://github.com/datmaiq/gopy-reactTS.git
+   ```
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+2. **Navigate to the Project Directory:**
 
-### `npm run build`
+   ```bash
+   cd py-go
+   ```
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+3. **Install Dependencies:**
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+   ```bash
+   npm install
+   ```
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
+4. **Run the Application:**
+   ```bash
+   npm start
+   ```
