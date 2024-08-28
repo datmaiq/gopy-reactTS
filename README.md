@@ -3,9 +3,9 @@
 ## Overview
 
 This project is a classic Tic-Tac-Toe game where players can choose to play against another player or against the computer. The game supports various grid sizes, customizable icons, and highlights the winning cells
-![Demo Image](assets/demo-gameplay.png)
+![Demo Image](/src/assets/demo-gameplay.png)
 
-![Demo Image](assets/demo-selection.png)
+![Demo Image](src/assets/demo-selection.png)
 
 ## Features
 
